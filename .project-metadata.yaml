@@ -12,7 +12,13 @@ runtimes:
     edition: Standard
 
 tasks:
-
+  - type: run_session
+    name: Install Dependencies
+    script: install-dependencies.py
+    short_summary: Install Dependencies
+    kernel: python3
+    cpu: 2
+    memory: 12
   - type: create_model
     short_summary: model create step
     name: sentiment analysis model
