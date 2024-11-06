@@ -2,11 +2,9 @@ from openai import OpenAI
 import json
 from datetime import datetime
 import cml.data_v1 as cmldata
-from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
-load_dotenv()
 
 # db stuff
 CONNECTION_NAME = "default-impala-aws"
