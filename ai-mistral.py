@@ -7,8 +7,8 @@ import requests
 
 
 # Model endpoint and access key for local Mistral
-MODEL_ENDPOINT = "https://modelservice.ml-8279e0e0-56d.se-sandb.a465-9q4k.cloudera.site/model"
-MODEL_ACCESS_KEY = "mhutdx0a31eynopa5igpqhmf679w232g"  # You might want to move this to .env file
+MODEL_ENDPOINT = "https://modelservice.ml-db89c6fb-96d.se-sandb.a465-9q4k.cloudera.site/model"
+MODEL_ACCESS_KEY = "m1uiflisr7avf51gpwekkf96fjansw61"  # You might want to move this to .env file
 
 def is_valid_date(date_str):
     try:
@@ -17,12 +17,37 @@ def is_valid_date(date_str):
     except ValueError:
         return False
 
-def get_mistral_response(system_prompt, user_text, temperature=0.7, max_tokens=500):
+def get_response_content(full_response, task, user_text):
+    """Extract relevant content from model response based on task type"""
+
+    print('task parameter is:',task)
+    if task == 'getCustomerInfo':
+        # Extract JSON content between curly braces
+        start_idx = full_response.find('{')
+        end_idx = full_response.rfind('}') + 1
+        print('start and end index are:',start_idx,end_idx)
+        if start_idx != -1 and end_idx > start_idx:
+            print('got full response')
+            return full_response[start_idx:end_idx]
+        return '{}'
+    
+    elif task in ['ai_help', 'summarize']:
+        # Find position after the user's text
+        pos = full_response.find(user_text)
+        if pos != -1:
+            # Get everything after the user's text
+            return full_response[pos + len(user_text):].strip()
+        return full_response
+
+    return full_response
+
+def get_mistral_response(system_prompt, user_text, temperature=0.7, max_tokens=500, task=None):
     """Helper function to get response from Mistral model"""
     llama_sys = f"<s>[INST]{system_prompt}[/INST]</s>"
     prompt = f"{llama_sys}\n[INST]{user_text}[/INST]"
-    
+    print('prompt built')
     try:
+        print('building payload')
         payload = {
             "accessKey": MODEL_ACCESS_KEY,
             "request": {
@@ -32,16 +57,25 @@ def get_mistral_response(system_prompt, user_text, temperature=0.7, max_tokens=5
                 "repetition_penalty": 1.0
             }
         }
-        
+        print('payload built')
         response = requests.post(
             MODEL_ENDPOINT, 
             data=json.dumps(payload), 
             headers={'Content-Type': 'application/json'}
         )
+
+        # raw_response =  response.json()['response']['prediction']['response']
+        # print('inference made')
+        # raw_response = str(response.json()['response']['prediction']['response'])
+        # print('Full response:', raw_response)  # For debugging
+
+        raw_response = response.json()['response']['prediction']['response']
+        print('raw_response',raw_response)
+        result = str(raw_response)
+        print('result',result)
         
-        # Extract the actual response, removing the prompt
-        result = str(response.json()['response']['prediction']['response'])[len(prompt)-6:]
-        return result.strip()
+        # Extract relevant content based on task and user_text
+        return get_response_content(result, task, user_text)
         
     except Exception as e:
         print(f"Error calling Mistral model: {e}")
@@ -93,14 +127,14 @@ AirSpeed Home:
 
 Note: 5% discount available for 2-year contracts (only for churn risk 1-2 customers or very negative conversations)."""
         
-        response_text = get_mistral_response(system_prompt, text)
+        response_text = get_mistral_response(system_prompt, text,temperature =1, task=task)
         output = {"recommendationText": response_text}
 
     elif task == 'summarize':
         print('kicking off summarize logic')
         system_prompt = """You are helping a call center worker for a telco company called airwave. Summarize the conversation provided, keeping it as short as possible while including all relevant information about the interaction, any products discussed, and any decisions made. Be concise but comprehensive."""
         
-        response_text = get_mistral_response(system_prompt, text)
+        response_text = get_mistral_response(system_prompt, text,temperature =1, task=task)
         output = {"recommendationText": response_text}
 
     elif task == 'getCustomerInfo':
@@ -111,8 +145,9 @@ Note: 5% discount available for 2-year contracts (only for churn risk 1-2 custom
 - "dob": The customer's date of birth in YYYY-MM-DD format
 If any information is missing, use empty strings for those fields."""
         
-        response_text = get_mistral_response(system_prompt, text, temperature=0.1)
-        
+        response_text = get_mistral_response(system_prompt, text,temperature =1, task=task)
+        print('response_text:', response_text)
+
         try:
             info = json.loads(response_text)
             
@@ -161,6 +196,7 @@ If any information is missing, use empty strings for those fields."""
             
         except json.JSONDecodeError as e:
             print('JSON decode error:', str(e))
+            print('response_text',response_text)
             output = {
                 "recommendationText": "{}",
                 "error": "Invalid JSON response",
