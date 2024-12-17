@@ -7,8 +7,38 @@ import requests
 
 
 # Model endpoint and access key for local Mistral
-MODEL_ENDPOINT = "https://modelservice.ml-db89c6fb-96d.se-sandb.a465-9q4k.cloudera.site/model"
-MODEL_ACCESS_KEY = "m1uiflisr7avf51gpwekkf96fjansw61"  # You might want to move this to .env file
+MODEL_ENDPOINT = "https://modelservice.ml-3f7ea81a-980.se-sandb.a465-9q4k.cloudera.site/model"
+MODEL_ACCESS_KEY = "m7v9u1rm6jqwgew8dyccy4xeppw2l44s"  # You might want to move this to .env file
+
+def load_customer_data():
+    try:
+        with open('customers.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("Customer data file not found")
+        return {}
+
+def load_promotions_data():
+    try:
+        with open('promotions.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("Promotions data file not found")
+        return {}
+
+def get_customer_promotion(account_id):
+    """Get customer info and matching promotion."""
+    customers = load_customer_data()
+    promotions = load_promotions_data()
+    
+    # Get customer info
+    customer = customers.get(account_id)
+    if not customer:
+        return None, promotions.get("default")
+    
+    # Get matching promotion
+    promotion = promotions.get(customer["profile_type"], promotions.get("default"))
+    return customer, promotion
 
 def is_valid_date(date_str):
     try:
@@ -31,7 +61,8 @@ def get_response_content(full_response, task, user_text):
             return full_response[start_idx:end_idx]
         return '{}'
     
-    elif task in ['ai_help', 'summarize']:
+    #elif task in ['ai_help', 'summarize']:
+    else:
         # Find position after the user's text
         pos = full_response.find(user_text)
         if pos != -1:
@@ -97,38 +128,74 @@ def predict(data: dict[str, str]) -> dict:
     
     if task == 'ai_help':
         print('kicking off get ai help logic')
-        system_prompt = """You are helping a call center worker for a telco company called airwave. You will receive the user text content, which will include the call center worker and the customers spoken words converted to text. You are called upon when the call center agent needs some sort of help, like details about the available products or suggestions for troubleshooting etc. It is your job to provide helpful suggestions. Make sure they are short so the call center worker can easily look at them and read them out to the customer. Do not include multiple suggestions, just one with enough information that the call center agent can use.
-
-The company currently has 3 products:
-
-AirSpeed Advanced:
-- Special Offer € 45/month (€ 60 after 3 months)
-- Up to 70 Mbps / 7 Mbps
-- 12 Month contract
-- FREE Fritzbox Router
-- € 150 installation fee
-- Optional Home Phone Service
-
-AirSpeed Plus:
-- Special Offer € 35/month (€ 50 after 3 months)
-- Up to 50 Mbps / 5 Mbps
-- 12 Month contract
-- FREE Fritzbox Router
-- € 150 installation fee
-- Optional Home Phone Service
-
-AirSpeed Home:
-- Special Offer € 25/month (€ 40 after 3 months)
-- Up to 30 Mbps / 3 Mbps
-- 12 Month contract
-- FREE Fritzbox Router
-- € 150 installation fee
-- Optional Home Phone Service
-
-Note: 5% discount available for 2-year contracts (only for churn risk 1-2 customers or very negative conversations)."""
+        current_state = data.get("currentState", "UNKNOWN")
+        account_id = data.get("accountId", "")
         
-        response_text = get_mistral_response(system_prompt, text,temperature =1, task=task)
-        output = {"recommendationText": response_text}
+        # Get customer info and promotion
+        customer, promotion = get_customer_promotion(account_id)
+        
+        # Base system prompt
+        base_prompt = """You are helping a call center worker for a telco company called airwave. Keep responses concise and focused."""
+        
+        if current_state == "HANDLING_TECHNICAL":
+            system_prompt = base_prompt + """
+            You are handling a technical support query. 
+            Provide step-by-step troubleshooting suggestions. Keep responses short and clear. 
+            After 3 exchanges without resolution, suggest transfer to a technical specialist.
+            
+            Customer Context:
+            Name: {customer_name}
+            Current Plan: {current_plan}
+            """.format(
+                customer_name=customer["name"] if customer else "Unknown",
+                current_plan=customer["current_plan"] if customer else "Unknown"
+            )
+            
+        elif current_state == "HANDLING_PROMOTIONAL":
+            if customer:
+                customer_context = f"""
+                Customer Profile:
+                - Name: {customer["name"]}
+                - Current Plan: {customer["current_plan"]}
+                - Time with us: {customer["tenure_months"]} months
+                - Profile Type: {customer["profile_type"]}
+                - Churn Risk: {customer["churn_risk"]}
+                
+                Recommended Promotion: {promotion["name"]}
+                Monthly Cost: {promotion["details"]["monthly_cost"]}
+                
+                Key Features:
+                {chr(10).join("- " + feature for feature in promotion["details"]["plan_features"])}
+                
+                Special Offers:
+                {chr(10).join("- " + offer for offer in promotion["details"]["special_offers"])}
+                """
+            else:
+                customer_context = """
+                Customer not found. Using default promotion.
+                
+                Default Offer:
+                {promotion_details}
+                """.format(
+                    promotion_details=json.dumps(promotion["details"], indent=2)
+                )
+            
+            system_prompt = base_prompt + customer_context + """
+            Based on the customer's profile and the available promotion, help explain the benefits 
+            and answer any questions. After 3 exchanges, suggest transfer to a sales specialist."""
+        
+        else:
+            system_prompt = base_prompt + """Determine if this is a technical or promotional query 
+            and respond accordingly."""
+        
+        response_text = get_mistral_response(system_prompt, text, temperature=1, task=task)
+        
+        # Include customer and promotion info in response
+        output = {
+            "recommendationText": response_text,
+            "customerInfo": customer if customer else {},
+            "promotionInfo": promotion if promotion else {}
+        }
 
     elif task == 'summarize':
         print('kicking off summarize logic')
@@ -137,12 +204,53 @@ Note: 5% discount available for 2-year contracts (only for churn risk 1-2 custom
         response_text = get_mistral_response(system_prompt, text,temperature =1, task=task)
         output = {"recommendationText": response_text}
 
+    elif task == 'classify_query':
+        print('kicking off query classification logic')
+        system_prompt = """You are helping a call center worker classify customer queries. Determine if the query is about technical support or about promotions/sales.
+    
+    Technical queries typically involve:
+    - Network or connection issues
+    - Device problems
+    - Service not working
+    - Setup help
+    - Account access issues
+    
+    Promotional/Sales queries typically involve:
+    - Questions about plans or pricing
+    - Interest in upgrades
+    - Special offers
+    - New services
+    - Package comparisons
+    
+    Respond in JSON format:
+    {
+        "queryType": "TECHNICAL" or "PROMOTIONAL",
+        "confidence": 0.0-1.0
+    }"""
+    
+        response_text = get_mistral_response(system_prompt, text,task=task)
+        try:
+            parsed_response = json.loads(response_text)
+            output = {
+                "queryType": parsed_response["queryType"],
+                "confidence": parsed_response["confidence"]
+
+            #     "queryType": parsed_response.get("queryType", "UNKNOWN"),
+            #     "confidence": parsed_response.get("confidence", 0)
+             }
+            print('output :',output)
+
+        except json.JSONDecodeError:
+            output = {
+                "queryType": "UNKNOWN",
+                "confidence": 0
+            }
+    
     elif task == 'getCustomerInfo':
         print('kicking off get cust info logic')
         system_prompt = """You are a helpful assistant for call center agents designed to analyze conversation text and extract customer information. Provide your answer in JSON format with these fields:
-- "name": The customer's name
-- "address": The customer's street and house number
-- "dob": The customer's date of birth in YYYY-MM-DD format
+- "account_id": The customer's 4-digit account ID
+- "name": The customer's full name
 If any information is missing, use empty strings for those fields."""
         
         response_text = get_mistral_response(system_prompt, text,temperature =1, task=task)
@@ -153,16 +261,14 @@ If any information is missing, use empty strings for those fields."""
             
             # Initialize customerInfo with empty strings
             customer_info = {
-                "name": "",
-                "address": "",
-                "date_of_birth": ""
+                "account_id": "",
+                "name": ""
             }
             
             # Track which fields are valid
             valid_fields = {
-                "name": False,
-                "address": False,
-                "dob": False
+                "account_id": False,
+                "name": False
             }
             
             # Check and populate each field individually
@@ -170,14 +276,10 @@ If any information is missing, use empty strings for those fields."""
                 customer_info["name"] = info["name"]
                 valid_fields["name"] = True
                 
-            if info.get("address"):
-                customer_info["address"] = info["address"]
-                valid_fields["address"] = True
-                
-            if info.get("dob"):
-                if is_valid_date(info["dob"]):
-                    customer_info["date_of_birth"] = info["dob"]
-                    valid_fields["dob"] = True
+            if info.get("account_id"):
+                if len(info["account_id"]) == 4 and info["account_id"].isdigit():
+                    customer_info["account_id"] = info["account_id"]
+                    valid_fields["account_id"] = True
             
             # Check if all fields are valid (for foundCustomer flag)
             info_complete = all(valid_fields.values())
@@ -202,8 +304,7 @@ If any information is missing, use empty strings for those fields."""
                 "error": "Invalid JSON response",
                 "customerInfo": {
                     "name": "",
-                    "address": "",
-                    "date_of_birth": ""
+                    "account_id": ""
                 }
             }
 

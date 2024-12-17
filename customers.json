@@ -1,0 +1,162 @@
+{
+  "1001": {
+    "name": "Emma Schmidt",
+    "profile_type": "high_value",
+    "current_plan": "Premium",
+    "tenure_months": 36,
+    "avg_monthly_spend": 145,
+    "churn_risk": "low"
+  },
+  "1002": {
+    "name": "Lucas Meyer",
+    "profile_type": "value_seeker",
+    "current_plan": "Basic",
+    "tenure_months": 18,
+    "avg_monthly_spend": 65,
+    "churn_risk": "medium"
+  },
+  "1003": {
+    "name": "Sofia Wagner",
+    "profile_type": "new_convert",
+    "current_plan": "Standard",
+    "tenure_months": 2,
+    "avg_monthly_spend": 95,
+    "churn_risk": "medium"
+  },
+  "1004": {
+    "name": "Max Fischer",
+    "profile_type": "retention_required",
+    "current_plan": "Premium",
+    "tenure_months": 24,
+    "avg_monthly_spend": 135,
+    "churn_risk": "high"
+  },
+  "1005": {
+    "name": "Hannah Müller",
+    "profile_type": "basic_user",
+    "current_plan": "Basic",
+    "tenure_months": 12,
+    "avg_monthly_spend": 45,
+    "churn_risk": "low"
+  },
+  "1006": {
+    "name": "Felix Bauer",
+    "profile_type": "high_value",
+    "current_plan": "Premium",
+    "tenure_months": 48,
+    "avg_monthly_spend": 155,
+    "churn_risk": "low"
+  },
+  "1007": {
+    "name": "Laura Klein",
+    "profile_type": "value_seeker",
+    "current_plan": "Standard",
+    "tenure_months": 15,
+    "avg_monthly_spend": 75,
+    "churn_risk": "medium"
+  },
+  "1008": {
+    "name": "Tim Schwarz",
+    "profile_type": "retention_required",
+    "current_plan": "Standard",
+    "tenure_months": 20,
+    "avg_monthly_spend": 85,
+    "churn_risk": "high"
+  },
+  "1009": {
+    "name": "Nina Hoffman",
+    "profile_type": "basic_user",
+    "current_plan": "Basic",
+    "tenure_months": 8,
+    "avg_monthly_spend": 40,
+    "churn_risk": "low"
+  },
+  "1010": {
+    "name": "David Weber",
+    "profile_type": "new_convert",
+    "current_plan": "Premium",
+    "tenure_months": 3,
+    "avg_monthly_spend": 125,
+    "churn_risk": "medium"
+  },
+  "1011": {
+    "name": "Julia Koch",
+    "profile_type": "high_value",
+    "current_plan": "Premium",
+    "tenure_months": 30,
+    "avg_monthly_spend": 165,
+    "churn_risk": "low"
+  },
+  "1012": {
+    "name": "Thomas Wolf",
+    "profile_type": "value_seeker",
+    "current_plan": "Standard",
+    "tenure_months": 14,
+    "avg_monthly_spend": 70,
+    "churn_risk": "medium"
+  },
+  "1013": {
+    "name": "Maria Schäfer",
+    "profile_type": "retention_required",
+    "current_plan": "Premium",
+    "tenure_months": 22,
+    "avg_monthly_spend": 140,
+    "churn_risk": "high"
+  },
+  "1014": {
+    "name": "Andreas Berg",
+    "profile_type": "basic_user",
+    "current_plan": "Basic",
+    "tenure_months": 10,
+    "avg_monthly_spend": 35,
+    "churn_risk": "low"
+  },
+  "1015": {
+    "name": "Sarah Krause",
+    "profile_type": "new_convert",
+    "current_plan": "Standard",
+    "tenure_months": 4,
+    "avg_monthly_spend": 80,
+    "churn_risk": "medium"
+  },
+  "1016": {
+    "name": "Michael Richter",
+    "profile_type": "high_value",
+    "current_plan": "Premium",
+    "tenure_months": 40,
+    "avg_monthly_spend": 175,
+    "churn_risk": "low"
+  },
+  "1017": {
+    "name": "Lisa Baum",
+    "profile_type": "value_seeker",
+    "current_plan": "Basic",
+    "tenure_months": 16,
+    "avg_monthly_spend": 55,
+    "churn_risk": "medium"
+  },
+  "1018": {
+    "name": "Peter Schulz",
+    "profile_type": "retention_required",
+    "current_plan": "Standard",
+    "tenure_months": 26,
+    "avg_monthly_spend": 90,
+    "churn_risk": "high"
+  },
+  "1019": {
+    "name": "Anna Winter",
+    "profile_type": "basic_user",
+    "current_plan": "Basic",
+    "tenure_months": 6,
+    "avg_monthly_spend": 45,
+    "churn_risk": "low"
+  },
+  "1020": {
+    "name": "Jan Zimmermann",
+    "profile_type": "new_convert",
+    "current_plan": "Premium",
+    "tenure_months": 1,
+    "avg_monthly_spend": 115,
+    "churn_risk": "medium"
+  }
+}

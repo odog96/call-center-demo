@@ -1,0 +1,105 @@
+{
+  "high_value": {
+    "name": "Executive Elite Plan",
+    "details": {
+      "monthly_cost": "€75",
+      "plan_features": [
+        "Unlimited 5G Data",
+        "Unlimited International Calls",
+        "Premium Device Upgrade Every 12 Months",
+        "Priority Customer Support",
+        "Family Plan Option (up to 5 lines)"
+      ],
+      "special_offers": [
+        "20% off for 24 months",
+        "Free Premium Device Protection",
+        "Exclusive Event Access"
+      ]
+    }
+  },
+  "value_seeker": {
+    "name": "Smart Saver Plus",
+    "details": {
+      "monthly_cost": "€35",
+      "plan_features": [
+        "20GB Data",
+        "Unlimited National Calls",
+        "Data Rollover",
+        "Basic Device Protection"
+      ],
+      "special_offers": [
+        "€10 off monthly for first 12 months",
+        "3 months free streaming service",
+        "Double data on weekends"
+      ]
+    }
+  },
+  "new_convert": {
+    "name": "Welcome Premium",
+    "details": {
+      "monthly_cost": "€45",
+      "plan_features": [
+        "30GB Data",
+        "Unlimited National Calls",
+        "International Text",
+        "Choice of Streaming Service"
+      ],
+      "special_offers": [
+        "First month free",
+        "No activation fee",
+        "Free SIM card"
+      ]
+    }
+  },
+  "retention_required": {
+    "name": "Loyalty Rewards Plus",
+    "details": {
+      "monthly_cost": "€40",
+      "plan_features": [
+        "25GB Data",
+        "Unlimited National Calls & Texts",
+        "Flexible Payment Options",
+        "Priority Support"
+      ],
+      "special_offers": [
+        "25% off for 12 months",
+        "Data boost to 40GB",
+        "Free device upgrade assessment"
+      ]
+    }
+  },
+  "basic_user": {
+    "name": "Essential Plus",
+    "details": {
+      "monthly_cost": "€25",
+      "plan_features": [
+        "10GB Data",
+        "500 Minutes",
+        "Unlimited Texts",
+        "Basic Support"
+      ],
+      "special_offers": [
+        "€5 off for 6 months",
+        "Extra 5GB data for 3 months",
+        "Free basic phone case"
+      ]
+    }
+  },
+  "default": {
+    "name": "Standard Welcome Offer",
+    "details": {
+      "monthly_cost": "€30",
+      "plan_features": [
+        "15GB Data",
+        "1000 Minutes",
+        "Unlimited Texts",
+        "Standard Support"
+      ],
+      "special_offers": [
+        "First month half price",
+        "No contract option available",
+        "Free SIM card"
+      ]
+    }
+  }
+}
