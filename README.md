@@ -1,88 +1,79 @@
 # Call Center Demo
 
-A modern call center management system that demonstrates efficient call routing, agent management, and customer service capabilities.
+A demonstration project showcasing a secure, air-gapped call center solution powered by Cloudera Machine Learning (CML). This project demonstrates how to implement an intelligent call center system that operates entirely within your secured environment, leveraging open-source LLM capabilities while maintaining complete data sovereignty and security.
 
 ## Key Features
 
-- Intelligent call routing and queue management
-- Real-time agent dashboard
-- Customer interaction tracking
-- Performance analytics and reporting
-- CRM integration
+- Call routing and queue management
+- Agent dashboard for handling customer interactions
+- Real-time analytics and reporting
+- Customer interaction history
+- Integration with locally-deployed open-source LLM
 - Automated call distribution (ACD)
+
+## Security Highlights
+
+- **Complete Air-Gapped Operation**: Runs entirely within Cloudera Machine Learning environment
+- **Zero External API Calls**: All LLM functionality is self-contained
+- **Data Sovereignty**: All data and model operations remain within your secured infrastructure
+- **Enterprise-Grade Security**: Leverages Cloudera's robust security framework
 
 ## Technology Stack
 
-- Frontend: React.js
-- Backend: Node.js / Express
-- Database: MongoDB
-- WebRTC: Twilio
-- Real-time: Socket.io
+- Frontend: HTML, JavaScript
+- Backend: Flask (Python) via webapp.py
+- AI Component: 
+  - Deployed in Cloudera Machine Learning
+  - Utilizes open-source LLM model
+  - Implemented in `ai_mistral.py`
 
-## Getting Started
+## Project Structure
 
-### Prerequisites
+- `webapp.py`: Flask application server
+- `ai_mistral.py`: CML-deployed model interface
+- `static/`: Frontend assets and JavaScript files
+- `templates/`: Flask HTML templates
 
-- Node.js v14.x or later
-- MongoDB v4.4 or later
-- Twilio account and API credentials
-- NPM or Yarn
+## Prerequisites
 
-### Installation
+- Cloudera Machine Learning (CML) environment
+- Python 3.x
+- Flask
+- Access to CML Model Deployment capabilities
+
+## Setup and Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/odog96/call-center-demo.git
 
-# Install dependencies
+# Navigate to project directory
 cd call-center-demo
-npm install
 
-# Set up environment variables
-cp .env.example .env
+# Install Python dependencies
+pip install -r requirements.txt
 ```
 
-### Configuration
+## Deployment
 
-1. Update `.env` with:
-   - MongoDB URL
-   - Twilio credentials
-   - Application port
-2. Configure WebRTC settings
-3. Set up agent profiles
-
-## Development
-
-```bash
-# Start backend server
-npm run server
-
-# Start frontend development server
-npm run client
-```
-
-## Testing
-
-```bash
-# Run tests
-npm test
-
-# Run linter
-npm run lint
-```
+1. Deploy the LLM model using Cloudera Machine Learning
+2. Configure the environment variables in CML
+3. Deploy the Flask application
+4. Access through your secured internal network
 
 ## Documentation
 
-Detailed documentation is available in the [docs](./docs) directory:
+For detailed documentation about:
+- CML deployment steps
+- Security configuration
+- API endpoints
+- Frontend functionality
 
-- API Documentation
-- Deployment Guide
-- User Manual
-- Administrator Guide
+Please refer to the documentation in the project files.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+Contributions are welcome! Please feel free to submit pull requests.
 
 ## License
 
