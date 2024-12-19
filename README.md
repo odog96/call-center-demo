@@ -1,1 +1,89 @@
-IyBDYWxsIENlbnRlciBEZW1vCgpBIG1vZGVybiBjYWxsIGNlbnRlciBtYW5hZ2VtZW50IHN5c3RlbSB0aGF0IGRlbW9uc3RyYXRlcyBlZmZpY2llbnQgY2FsbCByb3V0aW5nLCBhZ2VudCBtYW5hZ2VtZW50LCBhbmQgY3VzdG9tZXIgc2VydmljZSBjYXBhYmlsaXRpZXMuCgojIyBLZXkgRmVhdHVyZXMKCi0gSW50ZWxsaWdlbnQgY2FsbCByb3V0aW5nIGFuZCBxdWV1ZSBtYW5hZ2VtZW50Ci0gUmVhbC10aW1lIGFnZW50IGRhc2hib2FyZAotIEN1c3RvbWVyIGludGVyYWN0aW9uIHRyYWNraW5nCi0gUGVyZm9ybWFuY2UgYW5hbHl0aWNzIGFuZCByZXBvcnRpbmcKLSBDUk0gaW50ZWdyYXRpb24KLSBBdXRvbWF0ZWQgY2FsbCBkaXN0cmlidXRpb24gKEFDRCkKCiMjIFRlY2hub2xvZ3kgU3RhY2sKCi0gRnJvbnRlbmQ6IFJlYWN0LmpzCi0gQmFja2VuZDogTm9kZS5qcyAvIEV4cHJlc3MKLSBEYXRhYmFzZTogTW9uZ29EQgotIFdlYlJUQzogVHdpbGlvCi0gUmVhbC10aW1lOiBTb2NrZXQuaW8KCiMjIEdldHRpbmcgU3RhcnRlZAoKIyMjIFByZXJlcXVpc2l0ZXMKCi0gTm9kZS5qcyB2MTQueCBvciBsYXRlcgotIE1vbmdvREIgdjQuNCBvciBsYXRlcgotIFR3aWxpbyBhY2NvdW50IGFuZCBBUEkgY3JlZGVudGlhbHMKLSBOUE0gb3IgWWFybgoKIyMjIEluc3RhbGxhdGlvbgoKYGBgYmFzaAojIENsb25lIHRoZSByZXBvc2l0b3J5CmdpdCBjbG9uZSBodHRwczovL2dpdGh1Yi5jb20vb2RvZzk2L2NhbGwtY2VudGVyLWRlbW8uZ2l0CgojIEluc3RhbGwgZGVwZW5kZW5jaWVzCmNkIGNhbGwtY2VudGVyLWRlbW8KbnBtIGluc3RhbGwKCiMgU2V0IHVwIGVudmlyb25tZW50IHZhcmlhYmxlcwpjcCAuZW52LmV4YW1wbGUgLmVudgpgYGAKCiMjIyBDb25maWd1cmF0aW9uCgoxLiBVcGRhdGUgYC5lbnZgIHdpdGg6CiAgIC0gTW9uZ29EQiBVUkwKICAgLSBUd2lsaW8gY3JlZGVudGlhbHMKICAgLSBBcHBsaWNhdGlvbiBwb3J0CjIuIENvbmZpZ3VyZSBXZWJSVEMgc2V0dGluZ3MKMy4gU2V0IHVwIGFnZW50IHByb2ZpbGVzCgojIyBEZXZlbG9wbWVudAoKYGBgYmFzaAojIFN0YXJ0IGJhY2tlbmQgc2VydmVyCm5wbSBydW4gc2VydmVyCgojIFN0YXJ0IGZyb250ZW5kIGRldmVsb3BtZW50IHNlcnZlcgpucG0gcnVuIGNsaWVudApgYGAKCiMjIFRlc3RpbmcKCmBgYGJhc2gKIyBSdW4gdGVzdHMKbnBtIHRlc3QKCiMgUnVuIGxpbnRlcgpucG0gcnVuIGxpbnQKYGBgCgojIyBEb2N1bWVudGF0aW9uCgpEZXRhaWxlZCBkb2N1bWVudGF0aW9uIGlzIGF2YWlsYWJsZSBpbiB0aGUgW2RvY3NdKC4vZG9jcykgZGlyZWN0b3J5OgoKLSBBUEkgRG9jdW1lbnRhdGlvbgotIERlcGxveW1lbnQgR3VpZGUKLSBVc2VyIE1hbnVhbAotIEFkbWluaXN0cmF0b3IgR3VpZGUKCiMjIENvbnRyaWJ1dGluZwoKUGxlYXNlIHJlYWQgW0NPTlRSSUJVVElORy5tZF0oQ09OVFJJQlVUSU5HLm1kKSBmb3IgZGV0YWlscyBvbiBvdXIgY29kZSBvZiBjb25kdWN0IGFuZCB0aGUgcHJvY2VzcyBmb3Igc3VibWl0dGluZyBwdWxsIHJlcXVlc3RzLgoKIyMgTGljZW5zZQoKVGhpcyBwcm9qZWN0IGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBNSVQgTGljZW5zZSAtIHNlZSB0aGUgW0xJQ0VOU0VdKExJQ0VOU0UpIGZpbGUgZm9yIGRldGFpbHMuCg==
+# Call Center Demo
+
+A modern call center management system that demonstrates efficient call routing, agent management, and customer service capabilities.
+
+## Key Features
+
+- Intelligent call routing and queue management
+- Real-time agent dashboard
+- Customer interaction tracking
+- Performance analytics and reporting
+- CRM integration
+- Automated call distribution (ACD)
+
+## Technology Stack
+
+- Frontend: React.js
+- Backend: Node.js / Express
+- Database: MongoDB
+- WebRTC: Twilio
+- Real-time: Socket.io
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js v14.x or later
+- MongoDB v4.4 or later
+- Twilio account and API credentials
+- NPM or Yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/odog96/call-center-demo.git
+
+# Install dependencies
+cd call-center-demo
+npm install
+
+# Set up environment variables
+cp .env.example .env
+```
+
+### Configuration
+
+1. Update `.env` with:
+   - MongoDB URL
+   - Twilio credentials
+   - Application port
+2. Configure WebRTC settings
+3. Set up agent profiles
+
+## Development
+
+```bash
+# Start backend server
+npm run server
+
+# Start frontend development server
+npm run client
+```
+
+## Testing
+
+```bash
+# Run tests
+npm test
+
+# Run linter
+npm run lint
+```
+
+## Documentation
+
+Detailed documentation is available in the [docs](./docs) directory:
+
+- API Documentation
+- Deployment Guide
+- User Manual
+- Administrator Guide
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
