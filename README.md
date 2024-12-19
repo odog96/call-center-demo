@@ -1,51 +1,72 @@
-# Twitter Sentiment Analysis with Cloudera Machine Learning (CML)
+# Call Center Demo
 
-Automated deployment with [Cloudera AMP](https://docs.cloudera.com/machine-learning/cloud/applied-ml-prototypes/topics/ml-amp-project-spec.html) and project specification defined in [./.project-metadata.yaml](./.project-metadata.yaml):
+A demonstration project showcasing a modern call center application with features for handling customer interactions, call routing, and analytics.
 
-```yml
-name: Twitter sentiment analysis
-short_summary: Deployment of pre-trained model for sentiment analysis of Tweets.
-description: Deployment of pre-trained model for sentiment analysis of Tweets.
-author: Cloudera Inc.
-date: '2023-01-17'
-specification_version: "0.1"
-prototype_version: "1.0"
+## Features
 
-runtimes:
-  - editor: JupyterLab
-    kernel: Python 3.9
-    edition: Standard
+- Call routing and queue management
+- Agent dashboard for handling customer interactions
+- Real-time analytics and reporting
+- Customer interaction history
+- Integration with popular CRM systems
+- Automated call distribution (ACD)
 
-tasks:
+## Getting Started
 
-  - type: create_model
-    short_summary: model create step
-    name: Twitter sentiment analysis model
-    entity_label: twitter-sentiment
-    default_resources:
-      cpu: 2
-      memory: 8
+### Prerequisites
 
-  - type: build_model
-    short_summary: model build step
-    entity_label: twitter-sentiment
-    examples:
-      - request:
-          created_at: "2023-01-11T15:05:45.000Z"
-          id: "1613190434120949761"
-          text: "I love hackathons!"
-        response: 
-          created_at: "2023-01-11T15:05:45.000Z"
-          id: "1613190434120949761"
-          text: "I love hackathons!"
-          negative: 0.0042450143955647945
-          neutral: 0.011172760277986526
-          positive: 0.984582245349884
-          label: "positive"
-    target_file_path: inference.py
-    target_function_name: predict
-    kernel: python3
+- List of required software and dependencies
+- Minimum system requirements
+- API keys and configurations needed
 
-  - type: deploy_model
-    short_summary: model deployment step
-    entity_label: twitter-sentiment
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/odog96/call-center-demo.git
+
+# Navigate to project directory
+cd call-center-demo
+
+# Install dependencies
+npm install  # or other package manager commands
+```
+
+### Configuration
+
+1. Copy the example configuration file
+2. Update with your specific settings
+3. Set up environment variables
+
+## Usage
+
+Describe how to:
+- Start the application
+- Access different features
+- Configure basic settings
+- Handle common tasks
+
+## Documentation
+
+For detailed documentation, please refer to the [docs](./docs) directory.
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Support
+
+For support, please:
+- Open an issue
+- Check existing documentation
+- Contact the development team
+
+## Acknowledgments
+
+- List any third-party libraries or tools used
+- Credit contributors and inspirations
+- Note any related projects
