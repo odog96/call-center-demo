@@ -1,51 +1,92 @@
-# Twitter Sentiment Analysis with Cloudera Machine Learning (CML)
+# Call Center Demo
 
-Automated deployment with [Cloudera AMP](https://docs.cloudera.com/machine-learning/cloud/applied-ml-prototypes/topics/ml-amp-project-spec.html) and project specification defined in [./.project-metadata.yaml](./.project-metadata.yaml):
+A demonstration project showcasing a secure, air-gapped call center solution powered by Cloudera Machine Learning (CML). This project demonstrates how to implement an intelligent call center system that operates entirely within your secured environment, leveraging open-source LLM capabilities while maintaining complete data sovereignty and security.
 
-```yml
-name: Twitter sentiment analysis
-short_summary: Deployment of pre-trained model for sentiment analysis of Tweets.
-description: Deployment of pre-trained model for sentiment analysis of Tweets.
-author: Cloudera Inc.
-date: '2023-01-17'
-specification_version: "0.1"
-prototype_version: "1.0"
+## Architecture
 
-runtimes:
-  - editor: JupyterLab
-    kernel: Python 3.9
-    edition: Standard
+![Call Center Demo Architecture](images/architecture.png)
 
-tasks:
+The architecture demonstrates the system's key components:
+- A Flask/JavaScript frontend that handles user interactions
+- Integration with a Generative AI model
+- Connection to Cost/Promo database for business logic
+- Mistral LLM integration for advanced language processing
+- Sentiment analysis capabilities
+- Agent-like behavior mirroring through the frontend
 
-  - type: create_model
-    short_summary: model create step
-    name: Twitter sentiment analysis model
-    entity_label: twitter-sentiment
-    default_resources:
-      cpu: 2
-      memory: 8
+## Key Features
 
-  - type: build_model
-    short_summary: model build step
-    entity_label: twitter-sentiment
-    examples:
-      - request:
-          created_at: "2023-01-11T15:05:45.000Z"
-          id: "1613190434120949761"
-          text: "I love hackathons!"
-        response: 
-          created_at: "2023-01-11T15:05:45.000Z"
-          id: "1613190434120949761"
-          text: "I love hackathons!"
-          negative: 0.0042450143955647945
-          neutral: 0.011172760277986526
-          positive: 0.984582245349884
-          label: "positive"
-    target_file_path: inference.py
-    target_function_name: predict
-    kernel: python3
+- Call routing and queue management
+- Agent dashboard for handling customer interactions
+- Real-time analytics and reporting
+- Customer interaction history
+- Integration with locally-deployed open-source LLM
+- Automated call distribution (ACD)
 
-  - type: deploy_model
-    short_summary: model deployment step
-    entity_label: twitter-sentiment
+## Security Highlights
+
+- **Complete Air-Gapped Operation**: Runs entirely within Cloudera Machine Learning environment
+- **Zero External API Calls**: All LLM functionality is self-contained
+- **Data Sovereignty**: All data and model operations remain within your secured infrastructure
+- **Enterprise-Grade Security**: Leverages Cloudera's robust security framework
+
+## Technology Stack
+
+- Frontend: HTML, JavaScript
+- Backend: Flask (Python) via webapp.py
+- AI Component: 
+  - Deployed in Cloudera Machine Learning
+  - Utilizes open-source LLM model
+  - Implemented in `ai_mistral.py`
+
+## Project Structure
+
+- `webapp.py`: Flask application server
+- `ai_mistral.py`: CML-deployed model interface
+- `static/`: Frontend assets and JavaScript files
+- `templates/`: Flask HTML templates
+
+## Prerequisites
+
+- Cloudera Machine Learning (CML) environment
+- Python 3.x
+- Flask
+- Access to CML Model Deployment capabilities
+
+## Setup and Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/odog96/call-center-demo.git
+
+# Navigate to project directory
+cd call-center-demo
+
+# Install Python dependencies
+pip install -r requirements.txt
+```
+
+## Deployment
+
+1. Deploy the LLM model using Cloudera Machine Learning
+2. Configure the environment variables in CML
+3. Deploy the Flask application
+4. Access through your secured internal network
+
+## Documentation
+
+For detailed documentation about:
+- CML deployment steps
+- Security configuration
+- API endpoints
+- Frontend functionality
+
+Please refer to the documentation in the project files.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
