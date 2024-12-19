@@ -94,12 +94,6 @@ def get_mistral_response(system_prompt, user_text, temperature=0.7, max_tokens=5
             data=json.dumps(payload), 
             headers={'Content-Type': 'application/json'}
         )
-
-        # raw_response =  response.json()['response']['prediction']['response']
-        # print('inference made')
-        # raw_response = str(response.json()['response']['prediction']['response'])
-        # print('Full response:', raw_response)  # For debugging
-
         raw_response = response.json()['response']['prediction']['response']
         print('raw_response',raw_response)
         result = str(raw_response)
@@ -234,9 +228,6 @@ def predict(data: dict[str, str]) -> dict:
             output = {
                 "queryType": parsed_response["queryType"],
                 "confidence": parsed_response["confidence"]
-
-            #     "queryType": parsed_response.get("queryType", "UNKNOWN"),
-            #     "confidence": parsed_response.get("confidence", 0)
              }
             print('output :',output)
 
