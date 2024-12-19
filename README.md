@@ -4,19 +4,7 @@ A demonstration project showcasing a secure, air-gapped call center solution pow
 
 ## Architecture
 
-```mermaid
-graph LR
-    A[Flask & JS\nHTML] --> B[Gen AI Model]
-    B --> C[(Cost/\nPromo\nDB)]
-    B --> D[Mistral]
-    A --> E[Sentiment]
-    A --> A
-    
-    style D stroke:#ff6b4a,stroke-width:2px
-    
-classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
-classDef db fill:#f9f9f9,stroke:#333,stroke-width:2px;
-```
+![Call Center Demo Architecture](images/architecture.png)
 
 The architecture demonstrates the system's key components:
 - A Flask/JavaScript frontend that handles user interactions
