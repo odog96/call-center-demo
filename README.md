@@ -2,6 +2,30 @@
 
 A demonstration project showcasing a secure, air-gapped call center solution powered by Cloudera Machine Learning (CML). This project demonstrates how to implement an intelligent call center system that operates entirely within your secured environment, leveraging open-source LLM capabilities while maintaining complete data sovereignty and security.
 
+## Architecture
+
+```mermaid
+graph LR
+    A[Flask & JS\nHTML] --> B[Gen AI Model]
+    B --> C[(Cost/\nPromo\nDB)]
+    B --> D[Mistral]
+    A --> E[Sentiment]
+    A --> A
+    
+    style D stroke:#ff6b4a,stroke-width:2px
+    
+classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
+classDef db fill:#f9f9f9,stroke:#333,stroke-width:2px;
+```
+
+The architecture demonstrates the system's key components:
+- A Flask/JavaScript frontend that handles user interactions
+- Integration with a Generative AI model
+- Connection to Cost/Promo database for business logic
+- Mistral LLM integration for advanced language processing
+- Sentiment analysis capabilities
+- Agent-like behavior mirroring through the frontend
+
 ## Key Features
 
 - Call routing and queue management
