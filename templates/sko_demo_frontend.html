@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Style for the floating record button */
-            #stateContainer {
+        #stateContainer {
                 position: sticky;
                 top: 20px;  /* Distance from top where it will stick */
                 transition: background-color 0.3s ease;
@@ -60,7 +60,6 @@
             justify-content: center;
             font-size: 20px;
         }
-
         /* Style for the delete icon */
         .delete-icon {
             color: #dc3545;
@@ -452,13 +451,14 @@
             return text
         }
 
-        async function getAiSummary(buttonElem) {
+    async function getAiSummary(buttonElem) {
     buttonElem.innerHTML = '<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> ' +
         '<span role="status">Loading...</span>';
     var textOfEntireConversation = getTextOfEntireConversation();
     var textInput = `Here is the entire conversation: ${textOfEntireConversation}, please summarize.`;
-
+    
     try {
+        // First try-catch block for getting the AI summary
         const dataToSend = {
             "accessKey": "miacb4esuh0k8zuoq7gtqs6uacup8gwv",
             "request": {
@@ -484,11 +484,41 @@
         const responseData = await response.json();
         const responseText = responseData.response.recommendationText;
         var summaryDiv = document.getElementById('conversationSummary');
+        
         summaryDiv.innerHTML = `<p style="font-style:italic">${responseText}</p>`;
-
+        
         buttonElem.innerHTML = 'Summarize again';
 
+        // Second try-catch block for logging the call
+        try {
+            const customerName = document.getElementById("customerName").innerText;
+            const customerId = customerInfoContext ? customerInfoContext.account_id : '';
+            
+            const callLogResponse = await fetch('/log_call', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    caller_name: customerName,
+                    account_id: customerId,
+                    summary: responseText,
+                    email: customerInfoContext ? customerInfoContext.email : null
+                })
+            });
+            
+            const callLogResult = await callLogResponse.json();
+            console.log('Call logged:', callLogResult);
+            
+            // Add visual feedback
+            summaryDiv.innerHTML += '<p class="text-success">✓ Call logged and summary sent</p>';
+        } catch (error) {
+            console.error('Error logging call:', error);
+            summaryDiv.innerHTML += '<p class="text-danger">Error logging call</p>';
+        }
+
     } catch (error) {
+        // Main error handling for the entire function
         console.error('Error in getAiSummary:', error);
         buttonElem.innerHTML = 'Try summarizing again';
         var summaryDiv = document.getElementById('conversationSummary');
@@ -544,7 +574,7 @@
         }
         const responseText = responseData.response.recommendationText;
         var newDiv = document.createElement('div');
-        newDiv.innerHTML = `<h4 class="mt-3" style="font-style:italic">${responseText}</h4>`;
+        newDiv.innerHTML = `<h6 class="mt-3" style="font-style:italic">${responseText}</h6>`;
         
         // Handle customer and promotion info if available
         if (responseData.response.customerInfo && responseData.response.promotionInfo) {

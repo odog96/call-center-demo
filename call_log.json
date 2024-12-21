@@ -1,0 +1,22 @@
+{
+  "calls": [
+    {
+      "caller_name": "John Smith",
+      "account_id": "ACC123456",
+      "timestamp": "2024-12-20T14:30:25.123456",
+      "summary": "Customer called regarding his recent bill. Issue was related to a late payment charge. Explained the charge and provided information about our auto-pay options. Customer agreed to enroll in auto-pay to avoid future late fees. Also updated customer's email preferences for monthly statements."
+    },
+    {
+      "caller_name": "Sarah Johnson",
+      "account_id": "ACC789012",
+      "timestamp": "2024-12-20T15:45:12.345678",
+      "summary": "Technical support call regarding service interruption. Diagnosed issue as router configuration problem. Walked customer through router reset process and confirmed service restoration. Provided information about our 24/7 technical support options and documented preferred contact methods."
+    },
+    {
+      "caller_name": "Emma Schmidt",
+      "account_id": "",
+      "timestamp": "2024-12-20T21:56:27.082790",
+      "summary": "The call center worker, Emma Schmidt, assisted a customer with a battery life issue on their phone. The customer provided their account ID (1001) and explained that their phone's battery life was shorter than usual. Emma guided the customer through troubleshooting steps to resolve the issue, which the customer found helpful. The call ended with the customer expressing relief and gratitude. The product discussed was a mobile phone, and no decisions were explicitly mentioned in the conversation."
+    }
+  ]
+}
