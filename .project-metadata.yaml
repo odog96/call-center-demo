@@ -47,17 +47,17 @@ tasks:
     target_function_name: predict
     kernel: python3
 
-  - type: build_model
-    short_summary: model build step
-    entity_label: genai
-    target_file_path: ai-mistral.py
-    target_function_name: predict
-    kernel: python3
+  # - type: build_model
+  #   short_summary: model build step
+  #   entity_label: genai
+  #   target_file_path: ai-mistral.py
+  #   target_function_name: predict
+  #   kernel: python3
 
   - type: deploy_model
     short_summary: model deployment step
     entity_label: twitter-sentiment
     
-  - type: deploy_model
-    short_summary: model deployment step gen ai
-    entity_label: genai
+  # - type: deploy_model
+  #   short_summary: model deployment step gen ai
+  #   entity_label: genai
