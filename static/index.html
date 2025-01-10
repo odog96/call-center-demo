@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Call Center Analytics</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        .chart-container {
+            height: 400px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        function Dashboard() {
+            const [data, setData] = useState(null);
+            const callTypesRef = useRef(null);
+            const sentimentRef = useRef(null);
+            const queueTimeRef = useRef(null);
+            const churnRiskRef = useRef(null);
+            const chartInstances = useRef({});
+
+            useEffect(() => {
+                fetch('/api/data')
+                    .then(response => response.json())
+                    .then(jsonData => setData(jsonData))
+                    .catch(error => console.error('Error:', error));
+
+                // Cleanup function
+                return () => {
+                    if (chartInstances.current.callTypes) chartInstances.current.callTypes.destroy();
+                    if (chartInstances.current.sentiment) chartInstances.current.sentiment.destroy();
+                    if (chartInstances.current.queueTime) chartInstances.current.queueTime.destroy();
+                    if (chartInstances.current.churnRisk) chartInstances.current.churnRisk.destroy();
+                };
+            }, []);
+
+            useEffect(() => {
+                if (!data) return;
+
+                // Clean up existing charts
+                if (chartInstances.current.callTypes) chartInstances.current.callTypes.destroy();
+                if (chartInstances.current.sentiment) chartInstances.current.sentiment.destroy();
+                if (chartInstances.current.queueTime) chartInstances.current.queueTime.destroy();
+                if (chartInstances.current.churnRisk) chartInstances.current.churnRisk.destroy();
+
+                // Process data
+                const callsByType = data.calls.reduce((acc, call) => {
+                    acc[call.call_type] = (acc[call.call_type] || 0) + 1;
+                    return acc;
+                }, {});
+
+                // Call Types Chart
+                chartInstances.current.callTypes = new Chart(callTypesRef.current, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(callsByType),
+                        datasets: [{
+                            label: 'Number of Calls',
+                            data: Object.values(callsByType),
+                            backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Call Distribution by Type'
+                            }
+                        }
+                    }
+                });
+
+                // Process sentiment data
+                const sentimentByProfile = {};
+                data.calls.forEach(call => {
+                    if (!sentimentByProfile[call.customer_profile_type]) {
+                        sentimentByProfile[call.customer_profile_type] = {
+                            total: 0,
+                            count: 0
+                        };
+                    }
+                    sentimentByProfile[call.customer_profile_type].total += call.overall_sentiment;
+                    sentimentByProfile[call.customer_profile_type].count += 1;
+                });
+
+                const sentimentData = Object.entries(sentimentByProfile).map(([profile, stats]) => ({
+                    profile,
+                    avgSentiment: stats.total / stats.count
+                }));
+
+                // Sentiment Chart
+                chartInstances.current.sentiment = new Chart(sentimentRef.current, {
+                    type: 'bar',
+                    data: {
+                        labels: sentimentData.map(item => item.profile),
+                        datasets: [{
+                            label: 'Average Sentiment',
+                            data: sentimentData.map(item => item.avgSentiment),
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Average Sentiment by Profile'
+                            }
+                        }
+                    }
+                });
+
+                // Queue Time Chart
+                const queueTimeByProfile = {};
+                data.calls.forEach(call => {
+                    if (!queueTimeByProfile[call.customer_profile_type]) {
+                        queueTimeByProfile[call.customer_profile_type] = {
+                            total: 0,
+                            count: 0
+                        };
+                    }
+                    queueTimeByProfile[call.customer_profile_type].total += call.queue_time_seconds;
+                    queueTimeByProfile[call.customer_profile_type].count += 1;
+                });
+
+                const queueTimeData = Object.entries(queueTimeByProfile).map(([profile, stats]) => ({
+                    profile,
+                    avgTime: stats.total / stats.count
+                }));
+
+                chartInstances.current.queueTime = new Chart(queueTimeRef.current, {
+                    type: 'bar',
+                    data: {
+                        labels: queueTimeData.map(item => item.profile),
+                        datasets: [{
+                            label: 'Average Queue Time (seconds)',
+                            data: queueTimeData.map(item => item.avgTime),
+                            backgroundColor: 'rgba(153, 102, 255, 0.5)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Average Queue Time by Profile'
+                            }
+                        }
+                    }
+                });
+
+                // Churn Risk Chart
+                 const churnRiskAnalysis = {};
+                data.calls.forEach(call => {
+                    const key = `${call.customer_profile_type} (${call.churn_risk})`;
+                    if (!churnRiskAnalysis[key]) {
+                        churnRiskAnalysis[key] = {
+                            total: 0,
+                            count: 0
+                        };
+                    }
+                    churnRiskAnalysis[key].total += call.overall_sentiment;
+                    churnRiskAnalysis[key].count += 1;
+                });
+
+                const churnAnalysisData = Object.entries(churnRiskAnalysis).map(([key, stats]) => ({
+                    group: key,
+                    avgSentiment: stats.total / stats.count,
+                    callCount: stats.count
+                }));
+
+                chartInstances.current.churnRisk = new Chart(churnRiskRef.current, {
+                    type: 'bar',
+                    data: {
+                        labels: churnAnalysisData.map(item => item.group),
+                        datasets: [{
+                            label: 'Average Sentiment',
+                            data: churnAnalysisData.map(item => item.avgSentiment),
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            yAxisID: 'y'
+                        }, {
+                            label: 'Number of Calls',
+                            data: churnAnalysisData.map(item => item.callCount),
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            yAxisID: 'y1'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Customer Profile Analysis by Churn Risk'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Average Sentiment'
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Number of Calls'
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            }
+                        }
+                    }
+                });
+
+            }, [data]);
+
+            if (!data) return <div>Loading...</div>;
+
+            return (
+                <div>
+                    <h1 style={{padding: "20px", margin: 0}}>Call Center Analytics Dashboard</h1>
+                    <div className="charts-grid">
+                        <div className="chart-container">
+                            <canvas ref={callTypesRef}></canvas>
+                        </div>
+                        <div className="chart-container">
+                            <canvas ref={sentimentRef}></canvas>
+                        </div>
+                        <div className="chart-container">
+                            <canvas ref={queueTimeRef}></canvas>
+                        </div>
+                        <div className="chart-container">
+                            <canvas ref={churnRiskRef}></canvas>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(
+            <Dashboard />,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+</html>

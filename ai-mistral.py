@@ -1,4 +1,4 @@
-import json
+00import json
 from datetime import datetime
 import cml.data_v1 as cmldata
 import os
@@ -7,8 +7,8 @@ import requests
 
 
 # Model endpoint and access key for local Mistral
-MODEL_ENDPOINT = "https://modelservice.ml-3f7ea81a-980.se-sandb.a465-9q4k.cloudera.site/model"
-MODEL_ACCESS_KEY = "m7v9u1rm6jqwgew8dyccy4xeppw2l44s"  # You might want to move this to .env file
+MODEL_ENDPOINT = "https://modelservice.ml-20c170a2-dba.se-sandb.a465-9q4k.cloudera.site/model"
+MODEL_ACCESS_KEY = "mb3rocbav69u9aonmtssbjqz730udmle"  # You might want to move this to .env file
 
 def load_customer_data():
     try:
@@ -193,10 +193,42 @@ def predict(data: dict[str, str]) -> dict:
 
     elif task == 'summarize':
         print('kicking off summarize logic')
-        system_prompt = """You are helping a call center worker for a telco company called airwave. Summarize the conversation provided, keeping it as short as possible while including all relevant information about the interaction, any products discussed, and any decisions made. Be concise but comprehensive."""
+        system_prompt = """You are helping a call center worker for a telco company called Airwave. Analyze the provided conversation and return a JSON object with two fields:
+1. "summary": A concise but comprehensive summary of the interaction, including products discussed and decisions made
+2. "overall_sentiment": A float between 0 and 1 representing the overall sentiment of the conversation, where:
+   - 0.0-0.3: Negative interaction (customer frustrated, problems unresolved)
+   - 0.4-0.6: Neutral interaction (routine matters handled adequately)
+   - 0.7-1.0: Positive interaction (customer satisfied, problems resolved well)
+
+Base this sentiment on the entire conversation flow, resolution success, and customer satisfaction indicators.
+
+Return your response in valid JSON format like this:
+{
+    "summary": "your summary here",
+    "overall_sentiment": 0.85
+}"""
         
-        response_text = get_mistral_response(system_prompt, text,temperature =1, task=task)
-        output = {"recommendationText": response_text}
+        response_text = get_mistral_response(system_prompt, text, temperature=1, task=task)
+        
+        try:
+            # Parse the response as JSON
+            response_data = json.loads(response_text)
+            
+            # Validate the sentiment value
+            sentiment = float(response_data.get('overall_sentiment', 0.5))
+            sentiment = max(0.0, min(1.0, sentiment))  # Clamp between 0 and 1
+            
+            output = {
+                "recommendationText": response_data.get('summary', ''),
+                "overall_sentiment": sentiment
+            }
+        except (json.JSONDecodeError, ValueError) as e:
+            print(f"Error parsing model response: {e}")
+            # Fallback to treating entire response as summary if JSON parsing fails
+            output = {
+                "recommendationText": response_text,
+                "overall_sentiment": 0.5  # Default neutral sentiment
+            }
 
     elif task == 'classify_query':
         print('kicking off query classification logic')
