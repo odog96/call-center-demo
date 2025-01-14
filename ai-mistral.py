@@ -1,14 +1,12 @@
-00import json
+import json
 from datetime import datetime
 import cml.data_v1 as cmldata
 import os
 import requests
 
-
-
 # Model endpoint and access key for local Mistral
-MODEL_ENDPOINT = "https://modelservice.ml-20c170a2-dba.se-sandb.a465-9q4k.cloudera.site/model"
-MODEL_ACCESS_KEY = "mb3rocbav69u9aonmtssbjqz730udmle"  # You might want to move this to .env file
+MODEL_ENDPOINT = "https://modelservice.ml-eb5f3cf2-2af.se-sandb.a465-9q4k.cloudera.site/model"   
+MODEL_ACCESS_KEY = "mmc6nn5t7gnrdwdasmsxy12xwsjlgrwh"  # You might want to move this to .env file
 
 def load_customer_data():
     try:
