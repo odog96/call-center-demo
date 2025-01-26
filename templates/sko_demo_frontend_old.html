@@ -395,7 +395,7 @@
 
                 // Create a JSON object with the required content, including the accessKey
                 const dataToSend = {
-                    "accessKey": "mbi12imtta2jtyymzl0pc6jtpxfsyh17",
+                    "accessKey": "m0wckgrf72v0kdrwj41k44w0ulj1frwc",
                     "request": {
                         "created_at": currentTimestamp,
                         "id": "999",
@@ -404,7 +404,7 @@
                 };
 
                 // Make an asynchronous request using the fetch API
-                const response = await fetch('https://modelservice.ai-workbench.eng-ml-l.vnu8-sqze.cloudera.site/model', {
+                const response = await fetch('https://modelservice.ml-100f4370-5ce.se-sandb.a465-9q4k.cloudera.site/model', {
                     method: 'POST',
                     headers: {
                         "Accept": "*/*",
@@ -458,24 +458,19 @@
     var textInput = `Here is the entire conversation: ${textOfEntireConversation}, please summarize.`;
     
     try {
-        // First try-catch block for getting the AI summary
-        const dataToSend = {
-            "accessKey": "ml0eurduxupsh62mjn9fmliyduou6vs7",
-            "request": {
-                "created_at": new Date().toISOString(),
-                "text": textInput,
-                "task": "summarize"
-            }
-        };
-
-        const response = await fetch('https://modelservice.ai-workbench.eng-ml-l.vnu8-sqze.cloudera.site/model', {
+        const response = await fetch('/proxy/model', {
             method: 'POST',
             headers: {
-                "Accept": "*/*",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(dataToSend)
+            body: JSON.stringify({
+                conversation_text: textInput,
+                task: "ai_help",
+                currentState: currentState,
+                accountId: document.getElementById("customerId").innerText
+            })
         });
+
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -542,7 +537,7 @@
     
     try {
         const dataToSend = {
-            "accessKey": "ml0eurduxupsh62mjn9fmliyduou6vs7",
+            "accessKey": "miacb4esuh0k8zuoq7gtqs6uacup8gwv",
             "request": {
                 "created_at": new Date().toISOString(),
                 "text": textInput,
@@ -552,7 +547,7 @@
             }
         };
         console.log('Request payload:', dataToSend);
-        const response = await fetch('https://modelservice.ai-workbench.eng-ml-l.vnu8-sqze.cloudera.site/model', {
+        const response = await fetch('https://modelservice.ml-100f4370-5ce.se-sandb.a465-9q4k.cloudera.site/model', {
             method: 'POST',
             headers: {
                 "Accept": "*/*",
@@ -625,23 +620,16 @@
 async function classifyCustomerQuery(text) {
     console.log("Classifying query:", text);
     try {
-        const dataToSend = {
-            "accessKey":"ml0eurduxupsh62mjn9fmliyduou6vs7",
-            "request": {
-                "created_at": new Date().toISOString(),
-                "text": text,
-                "task": "classify_query",
-                "accountId": document.getElementById("customerId").innerHTML
-            }
-        };
-
-        const response = await fetch('https://modelservice.ai-workbench.eng-ml-l.vnu8-sqze.cloudera.site/model', {
+        const response = await fetch('/proxy/model', {
             method: 'POST',
             headers: {
-                "Accept": "*/*",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(dataToSend)
+            body: JSON.stringify({
+                conversation_text: text,
+                task: "classify_query",
+                accountId: document.getElementById("customerId").innerHTML
+            })
         });
 
         if (!response.ok) {
@@ -649,6 +637,9 @@ async function classifyCustomerQuery(text) {
         }
 
         const responseData = await response.json();
+         if (!responseData.success) {
+            throw new Error('Classification failed');
+        }
         const queryType = responseData.response.queryType;
 
         // Handle response based on classification
@@ -682,37 +673,23 @@ async function classifyCustomerQuery(text) {
 }
         
 // get customer info
-async function getCustomerInfo() {
+    async function getCustomerInfo() {
     if (currentState !== ConversationState.AWAITING_ID) {
         return;
     }
     
-    console.log("=== getCustomerInfo Function Called ===");
     var textOfEntireConversation = getTextOfEntireConversation();
-    var textInput = `Here is the entire conversation: ${textOfEntireConversation}.`;
-    console.log("Prepared text input:", textInput);
+    
     try {
-        const dataToSend = {
-            "accessKey": "ml0eurduxupsh62mjn9fmliyduou6vs7",
-            "request": {
-                "created_at": new Date().toISOString(),
-                "text": textInput,
-                "task": "getCustomerInfo"
-            }
-        };
-
-        // Log the request for debugging
-        console.log('Customer info request:', dataToSend);
-        console.log("=== Making API Request ===");
-        console.log("Request payload:", JSON.stringify(dataToSend, null, 2));
-
-        const response = await fetch('https://modelservice.ai-workbench.eng-ml-l.vnu8-sqze.cloudera.site/model', {
+        const response = await fetch('/proxy/model', {
             method: 'POST',
             headers: {
-                "Accept": "*/*",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(dataToSend)
+            body: JSON.stringify({
+                conversation_text: textOfEntireConversation,
+                task: "getCustomerInfo"
+            })
         });
 
         if (!response.ok) {
@@ -722,7 +699,6 @@ async function getCustomerInfo() {
         console.log("Raw response status:", response.status);
         console.log("Raw response headers:", Object.fromEntries(response.headers.entries()));
 
-        
         const responseData = await response.json();
         console.log("=== API Response Received ===");
         console.log("Full response data:", JSON.stringify(responseData, null, 2));
