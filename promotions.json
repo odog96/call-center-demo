@@ -1,104 +1,133 @@
 {
   "high_value": {
-    "name": "Executive Elite Plan",
+    "name": "AirSpeed Ultra 5G",
     "details": {
-      "monthly_cost": "€75",
+      "monthly_cost": "$89.99",
       "plan_features": [
-        "Unlimited 5G Data",
-        "Unlimited International Calls",
-        "Premium Device Upgrade Every 12 Months",
-        "Priority Customer Support",
-        "Family Plan Option (up to 5 lines)"
+        "Unlimited 5G Data with Priority Network Access",
+        "Up to 2 Gbps Download Speed",
+        "Unlimited National & International Calls",
+        "4K Streaming Quality",
+        "Multi-Device Support (up to 10 devices)",
+        "Premium Technical Support 24/7",
+        "Cloud Storage 2TB"
       ],
       "special_offers": [
-        "20% off for 24 months",
-        "Free Premium Device Protection",
-        "Exclusive Event Access"
+        "$69.99/month for first 6 months",
+        "Free Premium Device Protection Plan",
+        "Choice of Two Premium Streaming Services Included",
+        "Free Professional Installation",
+        "Latest 5G Router Included"
       ]
     }
   },
   "value_seeker": {
-    "name": "Smart Saver Plus",
+    "name": "AirSpeed Smart Plus",
     "details": {
-      "monthly_cost": "€35",
+      "monthly_cost": "$59.99",
       "plan_features": [
-        "20GB Data",
+        "500 Mbps Download Speed",
+        "Unlimited Data (Fair Usage Policy Applies)",
         "Unlimited National Calls",
-        "Data Rollover",
-        "Basic Device Protection"
+        "HD Streaming Quality",
+        "Connect up to 6 Devices",
+        "Standard Technical Support",
+        "Cloud Storage 500GB"
       ],
       "special_offers": [
-        "€10 off monthly for first 12 months",
-        "3 months free streaming service",
-        "Double data on weekends"
+        "$45.99/month for first 4 months",
+        "Basic Device Protection Included",
+        "Choice of One Streaming Service",
+        "50% Off Installation",
+        "High-Performance Router Included"
       ]
     }
   },
   "new_convert": {
-    "name": "Welcome Premium",
+    "name": "AirSpeed Welcome Pro",
     "details": {
-      "monthly_cost": "€45",
+      "monthly_cost": "$69.99",
       "plan_features": [
-        "30GB Data",
-        "Unlimited National Calls",
-        "International Text",
-        "Choice of Streaming Service"
+        "750 Mbps Download Speed",
+        "Unlimited Data",
+        "Unlimited National Calls & Texts",
+        "HD+ Streaming Quality",
+        "Connect up to 8 Devices",
+        "Priority Technical Support",
+        "Cloud Storage 1TB"
       ],
       "special_offers": [
-        "First month free",
-        "No activation fee",
-        "Free SIM card"
+        "First Month Free",
+        "No Installation Fee",
+        "Free Premium Router",
+        "3 Months Free Streaming Services",
+        "30-Day Money-Back Guarantee"
       ]
     }
   },
   "retention_required": {
-    "name": "Loyalty Rewards Plus",
+    "name": "AirSpeed Loyalty Plus",
     "details": {
-      "monthly_cost": "€40",
+      "monthly_cost": "$64.99",
       "plan_features": [
-        "25GB Data",
-        "Unlimited National Calls & Texts",
-        "Flexible Payment Options",
-        "Priority Support"
+        "600 Mbps Download Speed",
+        "Unlimited Data",
+        "Unlimited National Calls",
+        "HD+ Streaming Quality",
+        "Connect up to 7 Devices",
+        "Priority Customer Service",
+        "Cloud Storage 750GB"
       ],
       "special_offers": [
-        "25% off for 12 months",
-        "Data boost to 40GB",
-        "Free device upgrade assessment"
+        "$49.99/month for 12 months",
+        "Free Speed Upgrade for 6 Months",
+        "Complimentary Device Protection",
+        "Flexible Payment Options",
+        "Free Router Upgrade"
       ]
     }
   },
   "basic_user": {
-    "name": "Essential Plus",
+    "name": "AirSpeed Essential",
     "details": {
-      "monthly_cost": "€25",
+      "monthly_cost": "$39.99",
       "plan_features": [
-        "10GB Data",
-        "500 Minutes",
-        "Unlimited Texts",
-        "Basic Support"
+        "250 Mbps Download Speed",
+        "500GB Monthly Data",
+        "Unlimited National Calls to Landlines",
+        "SD Streaming Quality",
+        "Connect up to 4 Devices",
+        "Basic Technical Support",
+        "Cloud Storage 100GB"
       ],
       "special_offers": [
-        "€5 off for 6 months",
-        "Extra 5GB data for 3 months",
-        "Free basic phone case"
+        "$29.99/month for first 3 months",
+        "Basic Router Included",
+        "Standard Installation $50",
+        "Optional Device Protection $5/month",
+        "Basic Streaming Service 50% Off"
       ]
     }
   },
   "default": {
-    "name": "Standard Welcome Offer",
+    "name": "AirSpeed Standard",
     "details": {
-      "monthly_cost": "€30",
+      "monthly_cost": "$49.99",
       "plan_features": [
-        "15GB Data",
-        "1000 Minutes",
-        "Unlimited Texts",
-        "Standard Support"
+        "350 Mbps Download Speed",
+        "1TB Monthly Data",
+        "Unlimited National Calls",
+        "HD Streaming Quality",
+        "Connect up to 5 Devices",
+        "Standard Technical Support",
+        "Cloud Storage 250GB"
       ],
       "special_offers": [
-        "First month half price",
-        "No contract option available",
-        "Free SIM card"
+        "$39.99/month for first 3 months",
+        "Free Standard Router",
+        "Standard Installation $25",
+        "One Month Free Streaming Service",
+        "Optional Device Protection $8/month"
       ]
     }
   }

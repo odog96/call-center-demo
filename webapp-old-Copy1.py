@@ -39,10 +39,7 @@ class ChatClient:
         response = self.client.chat.completions.create(
             model=os.environ["OPENAI_MODEL_NAME"],
             messages=self.conversation_history,
-            max_tokens = 150, 
-            temperature=0.0,  # Set to 0 for completely deterministic responses
-            top_p=1.0,       # Set to 1.0 to further ensure deterministic behavior
-            seed=42          # Optional: Add a seed for even more consistency
+            max_tokens = 150
         )
         
         complete_response = response.choices[0].message.content
@@ -120,20 +117,23 @@ Query: '{text}'"""
     def get_ai_help(self, text: str, state: str, account_id: str) -> dict:
         client = self.chat_clients['technical' if state == "HANDLING_TECHNICAL" else 'promotional']
         
+        # Get customer and plan context
         customer = self.customers.get(account_id, {})
         current_plan_name = customer.get('current_plan', '')
         current_plan = None
         
+        # Find current plan details
         for plan_type, plan_data in self.promotions.items():
             if plan_data['name'] == current_plan_name:
                 current_plan = plan_data
                 break
 
+            
+            # your goal is to be as helpful as possible. Listen to their repsonces to your responses very careful. Make sure you're not repeating yourself.
+            # Provide some some basic first . Once you feel its appropriate you may offer them a different plan. They may ask you questions about the recommended plan. If they don't respond to the recommended plan or say no, do not keep bring the new plan up. 
+        
         if state == "HANDLING_TECHNICAL":
-            if account_id not in self.tech_support_states:
-                self.tech_support_states[account_id] = 1
-                prompt = f"""Customer Current Plan: {json.dumps(current_plan)}
-Customer Current Plan: {json.dumps(current_plan)}
+            prompt = f"""Customer Current Plan: {json.dumps(current_plan)}
 
 You are a helpful technical support assistant. Your priorities are:
 
@@ -156,17 +156,6 @@ If suggesting a plan upgrade becomes appropriate:
 - Be prepared to answer questions about the new plan
 - Respect their decision if they decline
 
-
-Query: '{text}'"""
-            else:
-                self.tech_support_states[account_id] += 1
-                prompt = f"""Customer Current Plan: {json.dumps(current_plan)}
-
-FOLLOW-UP RESPONSE:
-- First acknowledge their results
-- Then suggest our Premium plan if issues persist
-- 3-4 sentences maximum
-
 Query: '{text}'"""
 
         else:
@@ -176,18 +165,6 @@ You are an Airwave telecom support agent. Your approach:
 2. Answer questions directly without greetings
 3. Keep responses to 3-4 complete sentences
 4. Address specific promotion questions using available plan data
-
-RULES:
-1. Never repeat previous explanations verbatim
-2. For comparison questions:
-   - List only features/benefits they don't currently have
-   - Use specific prices and numbers
-3. For clarification questions:
-   - Provide completely new explanation
-   - Focus only on what was asked
-4. Keep responses to 3-4 sentences
-5. No greetings or "anything else" questions
-
 
 Guidelines:
 - Be concise and precise
@@ -255,37 +232,6 @@ def handle_summary():
         text = request.json.get('text')
         result = task_manager.get_summary(text)
         return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-@app.route("/log_call", methods=['POST'])
-def log_call():
-    try:
-        # Load existing logs
-        try:
-            with open('call_log.json', 'r') as f:
-                logs = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            logs = {"calls": []}
-        
-        # Add new call log
-        new_call = {
-            "caller_name": request.json.get("caller_name"),
-            "account_id": request.json.get("account_id"),
-            "timestamp": datetime.now().isoformat(),
-            "summary": request.json.get("summary"),
-            "call_type": request.json.get("call_type"),
-            "overall_sentiment": request.json.get("overall_sentiment"),
-            "queue_time_seconds": request.json.get("queue_time_seconds", 0)
-        }
-        
-        logs["calls"].append(new_call)
-        
-        # Write updated logs
-        with open('call_log.json', 'w') as f:
-            json.dump(logs, f, indent=2)
-            
-        return jsonify({"status": "success"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

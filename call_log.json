@@ -17,6 +17,57 @@
       "account_id": "",
       "timestamp": "2024-12-20T21:56:27.082790",
       "summary": "The call center worker, Emma Schmidt, assisted a customer with a battery life issue on their phone. The customer provided their account ID (1001) and explained that their phone's battery life was shorter than usual. Emma guided the customer through troubleshooting steps to resolve the issue, which the customer found helpful. The call ended with the customer expressing relief and gratitude. The product discussed was a mobile phone, and no decisions were explicitly mentioned in the conversation."
+    },
+    {
+      "caller_name": "Sophia Wagner",
+      "account_id": "1003",
+      "timestamp": "2025-01-26T15:10:58.140550",
+      "summary": "The user, Sophia Wagner, is experiencing a low signal issue with her Motorola Dynatac. She was initially upset and confused about the instruction to go to 'airwave calm slash coverage'. The assistant provided further explanation and assistance, resolving the user's confusion, leading to the user's improved sentiment and expressed happiness.",
+      "call_type": "technical",
+      "overall_sentiment": 0.85,
+      "queue_time_seconds": 0,
+      "customer_profile_type": "new_convert",
+      "churn_risk": "medium"
+    },
+    {
+      "caller_name": "Sophia Wagner",
+      "account_id": "1003",
+      "timestamp": "2025-01-31T15:35:55.875343",
+      "summary": "The user, Sophia Wagner, is experiencing a poor signal strength and is having trouble finding software update options. The customer service representative has agreed to help with both issues, and was successful in explaining the process for finding software updates.",
+      "call_type": "technical",
+      "overall_sentiment": 0.85,
+      "queue_time_seconds": 0,
+      "customer_profile_type": "new_convert",
+      "churn_risk": "medium"
+    },
+    {
+      "caller_name": "Emma Schmidt",
+      "account_id": "1001",
+      "timestamp": "2025-02-03T18:38:45.838040",
+      "summary": "Emma Schmidt is facing a technical issue with her internet stream, causing choppiness in both video and audio while her daughter is attempting to watch Frozen. Emma is seeking help for this issue.",
+      "call_type": "technical",
+      "overall_sentiment": 0.4,
+      "queue_time_seconds": 0,
+      "customer_profile_type": "high_value",
+      "churn_risk": "low"
+    },
+    {
+      "caller_name": "Sarah Wagner",
+      "account_id": "1003",
+      "timestamp": "2025-02-04T18:53:07.927430",
+      "summary": "Sarah Wagner has inquired about the best video gaming streaming plan. She is interested in understanding the differences between her current plan and the new offer or promotions.",
+      "call_type": "promotional",
+      "overall_sentiment": 0.85,
+      "queue_time_seconds": 0
+    },
+    {
+      "caller_name": "Sarah Wagner",
+      "account_id": "1003",
+      "timestamp": "2025-02-04T18:58:41.022140",
+      "summary": "Sarah Wagner reported a technical issue with her streaming. She explained that her video and audio were choppy, and she has tried multiple solutions without success.",
+      "call_type": "technical",
+      "overall_sentiment": 0.3,
+      "queue_time_seconds": 0
     }
   ]
 }
